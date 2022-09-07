@@ -5,6 +5,7 @@ fineract:
   image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract:latest"
   ingress:
       enabled: true
+      hostname: "fynams.sandbox.fynarfin.io"
       annotations:
         kubernetes.io/ingress.class: "nginx"
       path: "/"
