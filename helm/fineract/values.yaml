@@ -24,7 +24,7 @@ communityapp:
   ingress:
     enabled: true
     hostname: "communityapp.sandbox.fynarfin.io"
-    path: "/community"
+    path: "/"
     wildcardhostname: "*.fynarfin.io"
     annotations:
       kubernetes.io/ingress.class: "nginx"
