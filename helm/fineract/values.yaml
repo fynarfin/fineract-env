@@ -89,6 +89,6 @@ mysql:
         memory: "2Gi"
         cpu: "1000m"
 
-wildcardhostname: ""
+wildcardhostname: "*.fynarfin.io"
 
 tls: ""  
