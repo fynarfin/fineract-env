@@ -134,7 +134,7 @@ spec:
                   number: 8443
   tls:
     - hosts:
-        - "{{ .Values.fineract.ingress.wildcardhostname }}"
+        - "{{ .Values.wildcardhostname }}"
       secretName: "{{ .Values.tls }}"
 {{- end }}
 ---
