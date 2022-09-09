@@ -2,7 +2,7 @@ namespace: "default"
 fineract:
   DFSPIDS: ""
   SPRING_PROFILES_ACTIVE: "bb"
-  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract:latest"
+  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract"
   
   ingress:
     enabled: true
@@ -25,7 +25,7 @@ fineract:
 
 communityapp:
   enabled: true
-  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/community-app:latest"
+  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/community-app"
   
   ingress:
     enabled: true
