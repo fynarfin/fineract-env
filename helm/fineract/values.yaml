@@ -11,7 +11,7 @@ fineract:
       kubernetes.io/ingress.class: "nginx"
     backend:
       service:
-        name: fineract-server
+        name: fineractserver
         port: 
           number: 8443  
   resources:
