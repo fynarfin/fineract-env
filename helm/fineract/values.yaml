@@ -26,7 +26,7 @@ fineract:
 communityapp:
   enabled: true
   image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/community-app:latest"
- # wildcardhostname: "*.fynarfin.io"
+ #wildcardhostname: "*.fynarfin.io"
   hostname: "communityapp.sandbox.fynarfin.io"
   ingress:
     enabled: true
@@ -101,4 +101,4 @@ mysql:
 
 wildcardhostname: "*.fynarfin.io"
 
-tls: "fynarfin"  
+tls: ""  
