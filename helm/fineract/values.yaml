@@ -3,7 +3,6 @@ fineract:
   DFSPIDS: ""
   SPRING_PROFILES_ACTIVE: "bb"
   image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract:latest"
-  #wildcardhostname: "*.fynarfin.io"
   hostname: "fynams.sandbox.fynarfin.io"
   ingress:
     enabled: true
@@ -26,7 +25,6 @@ fineract:
 communityapp:
   enabled: true
   image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/community-app:latest"
- #wildcardhostname: "*.fynarfin.io"
   hostname: "communityapp.sandbox.fynarfin.io"
   ingress:
     enabled: true
