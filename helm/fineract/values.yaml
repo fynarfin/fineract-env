@@ -3,10 +3,11 @@ fineract:
   DFSPIDS: ""
   SPRING_PROFILES_ACTIVE: "bb"
   image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract:latest"
-  hostname: "fynams.sandbox.fynarfin.io"
+  
   ingress:
     enabled: true
     path: "/"
+    hostname: "fynams.sandbox.fynarfin.io"
     annotations:
       kubernetes.io/ingress.class: "nginx"
     backend:
@@ -25,12 +26,13 @@ fineract:
 communityapp:
   enabled: true
   image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/community-app:latest"
-  hostname: "communityapp.sandbox.fynarfin.io"
+  
   ingress:
     enabled: true
     path: "/"
     annotations:
       kubernetes.io/ingress.class: "nginx"
+    hostname: "communityapp.sandbox.fynarfin.io"  
     backend:
       service:
         name: communityapp
