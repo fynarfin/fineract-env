@@ -3,18 +3,18 @@ fineract:
   DFSPIDS: ""
   SPRING_PROFILES_ACTIVE: "bb"
   image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract:latest"
+  wildcardhostname: "*.fynarfin.io"
+  hostname: "fynams.sandbox.fynarfin.io"
   ingress:
     enabled: true
-    hostname: "fynams.sandbox.fynarfin.io"
     path: "/"
-    wildcardhostname: "*.fynarfin.io"
     annotations:
       kubernetes.io/ingress.class: "nginx"
     backend:
-       service:
-         name: fineract-server
-         port: 
-           number: 8443  
+      service:
+        name: fineract-server
+        port: 
+          number: 8443  
   resources:
     limits:
       cpu: "1000m"
@@ -26,11 +26,11 @@ fineract:
 communityapp:
   enabled: true
   image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/community-app:latest"
+  wildcardhostname: "*.fynarfin.io"
+  hostname: "communityapp.sandbox.fynarfin.io"
   ingress:
     enabled: true
-    hostname: "communityapp.sandbox.fynarfin.io"
     path: "/"
-    wildcardhostname: "*.fynarfin.io"
     annotations:
       kubernetes.io/ingress.class: "nginx"
     backend:
