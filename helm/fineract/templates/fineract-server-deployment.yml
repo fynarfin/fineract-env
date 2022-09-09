@@ -21,8 +21,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: fineract-server
-  name: fineract-server
+    app: fineractserver
+  name: fineractserver
   namespace: "{{ .Values.namespace }}"
 spec:
   ports:
@@ -30,7 +30,7 @@ spec:
     port: 8443
     targetPort: 8443
   selector:
-    app: fineract-server
+    app: fineractserver
     tier: backend
   type: LoadBalancer
 
@@ -39,21 +39,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fineract-server
+  name: fineractserver
   namespace: "{{ .Values.namespace }}"
   labels:
-    app: fineract-server
+    app: fineractserver
 spec:
   selector:
     matchLabels:
-      app: fineract-server
+      app: fineractserver
       tier: backend
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: fineract-server
+        app: fineractserver
         tier: backend
     spec:
       initContainers:
@@ -61,7 +61,7 @@ spec:
           image: busybox:1.28
           command: ['sh', '-c', 'echo -e "Checking for the availability of MYSQL server deployment"; while ! nc -z "fineract-mysql" 3306; do sleep 1; printf "-"; done; echo -e " >> MYSQL server has started";']
       containers:
-      - name: fineract-server
+      - name: fineractserver
         image: "{{ .Values.fineract.image }}"
         imagePullPolicy: Always
         resources:
@@ -108,13 +108,13 @@ spec:
             value: ''
         ports:
         - containerPort: 8443
-          name: fineract-server
+          name: fineractserver
 ---
 {{- if .Values.fineract.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: fineract-server
+  name: fineractserver
   namespace: "{{ .Values.namespace }}"
   annotations:
 {{- if .Values.fineract.ingress.annotations }}
@@ -129,7 +129,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: fineract-server
+                name: fineractserver
                 port: 
                   number: 8443
   tls:
