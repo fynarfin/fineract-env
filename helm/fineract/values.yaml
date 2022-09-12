@@ -30,7 +30,7 @@ communityapp:
     enabled: true
     annotations:
       kubernetes.io/ingress.class: "nginx"
-    path: "/"
+    path: "/communityapp"
     backend:
       service:
         name: mifoscommunity
