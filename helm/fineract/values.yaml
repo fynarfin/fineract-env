@@ -5,7 +5,7 @@ fineract:
   image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract"
   ingress:
     enabled: true
-    hostname: "fynams.sandbox.fynarfin.io"
+    hostname: "fynams.sandbox.fynarfin.io?baseApiUrl=https://fynams.sandbox.fynarfin.io/"
     annotations:
       kubernetes.io/ingress.class: "nginx"  
       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
