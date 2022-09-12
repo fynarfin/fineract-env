@@ -105,7 +105,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: communityapp
+                name: "{{ .Values.communityapp.ingress.backend.service.name }}"
                 port: 
                   number: 9090
   tls:
