@@ -34,9 +34,9 @@ communityapp:
     path: "/"
     backend:
       service:
-        name: mifoscommunity
+        name: zeebe-operate
         port:
-          number: 9090
+          number: 80
   resources:
     limits:
       cpu: "500m"
