@@ -107,7 +107,7 @@ spec:
               service:
                 name: "{{ .Values.communityapp.ingress.backend.service.name }}"
                 port: 
-                  number: 9090
+                  number: "{{ .Values.communityapp.ingress.backend.service.port.number }}"
   tls:
     - hosts:
         - "{{ .Values.wildcardhostname }}"
