@@ -1,6 +1,7 @@
 fin-engine:
   fineract:
     DFSPIDS: "rhino,gorilla"
+    image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract:mysqllatest"
     spec: 
       template:
         spec:
