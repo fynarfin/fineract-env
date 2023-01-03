@@ -9,7 +9,7 @@ fin-engine:
             env:
               FINERACT_DEFAULT_TENANTDB_IDENTIFIER: "rhino"
               FINERACT_DEFAULT_TENANTDB_NAME: "rhino"
-    postStartScript: "echo -e '******Fineract is Started successfully********';mysql -h fineract-mysql -uroot -p4ET6ywqlGt fineract_tenants -e 'UPDATE tenants SET name='Default Demo Tenant-test' WHERE id=1;'; "
+    postStartScript: "echo -e '******Fineract is Started successfully********'; "
     ingress:
       enabled: true
       hostname: "rhino.mifos.g2pconnect.io"
