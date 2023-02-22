@@ -39,6 +39,7 @@ fin-engine:
       hostname: "webapp.mifos.g2pconnect.io"
       
   mariadb:
+    enabled: false
     fullnameOverride: fineract-mysql
     auth:
       username: "mifos"
