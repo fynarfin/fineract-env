@@ -1,0 +1,49 @@
+version: 2.1
+jobs:
+  cloning-from-git:
+    docker:
+      - image: 'cimg/base:2023.07'
+    steps:
+      - run:
+          name: |
+            Keyword not recognized
+          command: exit 1
+          JFC_STACK_TRACE: |-
+            Please refer to CircleCI documentation (https://circleci.com/docs/reference-2-1/#section=configuration)
+            and/or submit an issue at https://github.com/circleci/jenkinsfile-converter
+            git https://github.com/fynarfin/fineract-env.git/
+  install kubectl:
+    - run: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list && \apt-get update && apt-get -y install --no-install-recommends kubectl          
+  deploy-helm-chart:
+    docker:
+      - image: 'cimg/base:2023.07'
+    steps:
+      - run: echo $AWS_PROFILE
+      - run: echo $AWS_DEFAULT_PROFILE
+      - run: kubectl config use-context arn:aws:eks:us-east-2:419830066942:cluster/sit
+      - run: kubectl config get-contexts
+      - run: rm -f helm/g2pconnect-superset/Chart.lock helm/g2pconnect-superset/requirements.lock helm/g2pconnect-superset/charts/*
+      - run: helm dep up helm/g2pconnect-superset
+      - run: helm upgrade -f helm/g2pconnect-superset/values.yaml fineract helm/g2pconnect-superset --install --create-namespace --namespace fineract
+  migrating-tenants:
+    docker:
+      - image: 'cimg/base:2023.07'
+    steps:
+      - run: sleep 180
+      - run: echo $AWS_PROFILE
+      - run: echo $AWS_DEFAULT_PROFILE
+      - run: kubectl config use-context arn:aws:eks:us-east-2:419830066942:cluster/sit
+      - run: kubectl delete pods -n fineract `kubectl get pods -n fineract | grep fineract-server | cut -d " " -f1`
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - cloning-from-git
+      - install kubectl
+      - deploy-helm-chart:
+          requires:
+            - cloning-from-git
+            - install kubectl
+      - migrating-tenants:
+          requires:
+            - deploy-helm-chart
