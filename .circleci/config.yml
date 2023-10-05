@@ -12,8 +12,6 @@ jobs:
       cluster-name:
         description: "sit"
         type: string
-    environment:
-      TERM: dumb
     steps:
       - checkout
       - kubernetes/install-kubectl
