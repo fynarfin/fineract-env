@@ -45,7 +45,6 @@ workflows:
   build-and-test:
     jobs:
       - deploy-helm-chart:
-          cluster-name: sit
           context:
             - AWS
             - Helm
