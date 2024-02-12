@@ -20,18 +20,15 @@ jobs:
       - run:
           name: Authenticate kubectl with EKS Cluster
           command: aws eks --region $REGION update-kubeconfig --name sit
-      - run:
-          name: Install Helm
-          command: |
-            curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-            chmod 700 get_helm.sh
-            ./get_helm.sh
+      
 
   deploy:
     docker:
       - image: circleci/python:3.8
     steps:
       - checkout
+      - helm/install-helm-client:
+          version: "v3.8.2"
       - run:
           name: Deploy Helm Chart
           command: |
