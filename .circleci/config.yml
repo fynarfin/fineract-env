@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  build:
+  build_and_deploy:
     docker:
       - image: circleci/python:3.8
     steps:
@@ -11,7 +11,7 @@ jobs:
           command: sudo pip install awscli
       - run:
           name: Configure AWS Credentials
-          command: aws configure set aws_access_key_id $AWS_ACCESS_KEY && aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY && aws configure set region $REGION
+          command: aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID && aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY && aws configure set region $REGION
       - run:
           name: Install kubectl
           command: |
@@ -20,8 +20,9 @@ jobs:
       - run:
           name: Authenticate kubectl with EKS Cluster
           command: aws eks --region $REGION update-kubeconfig --name sit
+
       - run:
-          name: Install Helm
+          name: Deploy Helm Chart
           command: |
             curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
             sudo apt-get install apt-transport-https --yes
@@ -29,22 +30,14 @@ jobs:
             #helm install
             sudo apt-get update
             sudo apt-get install helm
-
-  deploy:
-    docker:
-      - image: circleci/python:3.8
-    steps:
-      - checkout
-      - run:
-          name: Deploy Helm Chart
-          command: |
-            helm upgrade --install helm/fineract/values.yaml fineract helm/fineract/ --create-namespace --namespace fineract
+            helm dep up helm/fineract
+            helm upgrade -f helm/fineract/values.yaml fineract helm/fineract  --install --create-namespace --namespace fineract
 
 workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build
-      - deploy:
-          requires:
-            - build
+      - build_and_deploy: 
+          context:
+            - AWS
+            - slack
