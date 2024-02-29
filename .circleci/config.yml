@@ -31,7 +31,7 @@ jobs:
             sudo apt-get update
             sudo apt-get install helm
             helm dep up helm/fineract
-            helm upgrade -f helm/fineract/values.yaml fineract helm/fineract  --install --create-namespace --namespace fineract
+            helm upgrade -f helm/fineract/values.yaml fineract helm/fineract  --install --create-namespace --namespace fineract1
 
 workflows:
   version: 2
