@@ -1,22 +1,22 @@
 fineract:
   enabled: true
   db: fineract-mysql
-  DFSPIDS: ""
+  DFSPIDS: "rhino,gorilla,pluto,venus,jupiter,wakanda"
   SPRING_PROFILES_ACTIVE: "bb"
-  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract:1.8.2"
+  image: "419830066942.dkr.ecr.ap-south-1.amazonaws.com/fineract:mysqllatest"
   spec: 
     template:
-       spec:
-         containers:
-            env:
-              FINERACT_DEFAULT_TENANTDB_IDENTIFIER: "default"
-              FINERACT_DEFAULT_TENANTDB_NAME: "fineract_default"
-              FINERACT_DEFAULT_TENANTDB_HOSTNAME: "fineract-mysql"
-              FINERACT_DEFAULT_TENANTDB_PORT: "3306"
-              FINERACT_HIKARI_DRIVER_CLASS_NAME: org.mariadb.jdbc.Driver
-              FINERACT_HIKARI_JDBC_URL: jdbc:mariadb://fineract-mysql:3306/fineract_tenants
-              FINERACT_SERVER_PORT: 8443
-  preStopScript: 'echo -e "******Fineract is stopping********";'
+      spec:
+        containers:
+          env:
+            FINERACT_DEFAULT_TENANTDB_IDENTIFIER: "gorilla"
+            FINERACT_DEFAULT_TENANTDB_NAME: "gorilla"
+            FINERACT_DEFAULT_TENANTDB_HOSTNAME: "fineract-mysql"
+            FINERACT_DEFAULT_TENANTDB_PORT: "3306"
+            FINERACT_HIKARI_DRIVER_CLASS_NAME: org.mariadb.jdbc.Driver
+            FINERACT_HIKARI_JDBC_URL: jdbc:mariadb://fineract-mysql:3306/fineract_tenants
+            FINERACT_SERVER_PORT: 8443
+  preStopScript: 'mysql -h fineract-mysql -u root -p4ET6ywqlGt fineract_tenants -e "INSERT IGNORE INTO tenant_server_connections (id, schema_server, schema_name, schema_server_port, schema_username, schema_password, auto_update, pool_initial_size, pool_validation_interval, pool_remove_abandoned, pool_remove_abandoned_timeout, pool_log_abandoned, pool_abandon_when_percentage_full, pool_test_on_borrow, pool_max_active, pool_min_idle, pool_max_idle, pool_suspect_timeout, pool_time_between_eviction_runs_millis, pool_min_evictable_idle_time_millis, schema_connection_parameters, readonly_schema_server, readonly_schema_name, readonly_schema_server_port, readonly_schema_username, readonly_schema_password, readonly_schema_connection_parameters) VALUES (1, \"fineract-mysql\", \"gorilla\", 3306, \"mifos\", \"password\", 1, 5, 30000, 1, 60, 1, 50, 1, 40, 20, 10, 60, 34000, 60000, \"serverTimezone=UTC&useLegacyDatetimeCode=false&sessionVariables=time_zone=\\\"-00:00\\\"\", NULL, NULL, NULL, NULL, NULL, NULL),(2, \"fineract-mysql\", \"rhino\", 3306, \"mifos\", \"password\", 1, 5, 30000, 1, 60, 1, 50, 1, 40, 20, 10, 60, 34000, 60000, \"serverTimezone=UTC&useLegacyDatetimeCode=false&sessionVariables=time_zone=\\\"-00:00\\\"\", NULL, NULL, NULL, NULL, NULL, NULL),(3, \"fineract-mysql\", \"pluto\", 3306, \"mifos\", \"password\", 1, 5, 30000, 1, 60, 1, 50, 1, 40, 20, 10, 60, 34000, 60000, \"serverTimezone=UTC&useLegacyDatetimeCode=false&sessionVariables=time_zone=\\\"-00:00\\\"\", NULL, NULL, NULL, NULL, NULL, NULL),(4, \"fineract-mysql\", \"venus\", 3306, \"mifos\", \"password\", 1, 5, 30000, 1, 60, 1, 50, 1, 40, 20, 10, 60, 34000, 60000, \"serverTimezone=UTC&useLegacyDatetimeCode=false&sessionVariables=time_zone=\\\"-00:00\\\"\", NULL, NULL, NULL, NULL, NULL, NULL),(5, \"fineract-mysql\", \"jupiter\", 3306, \"mifos\", \"password\", 1, 5, 30000, 1, 60, 1, 50, 1, 40, 20, 10, 60, 34000, 60000, \"serverTimezone=UTC&useLegacyDatetimeCode=false&sessionVariables=time_zone=\\\"-00:00\\\"\", NULL, NULL, NULL, NULL, NULL, NULL),(6, \"fineract-mysql\", \"wakanda\", 3306, \"mifos\", \"password\", 1, 5, 30000, 1, 60, 1, 50, 1, 40, 20, 10, 60, 34000, 60000, \"serverTimezone=UTC&useLegacyDatetimeCode=false&sessionVariables=time_zone=\\\"-00:00\\\"\", NULL, NULL, NULL, NULL, NULL, NULL)" && mysql -h fineract-mysql -u root -p4ET6ywqlGt fineract_tenants -e "INSERT IGNORE INTO tenants (id, identifier, name, timezone_id, country_id, joined_date, created_date, lastmodified_date, oltp_id, report_id) VALUES (1, \"gorilla\", \"gorilla\", \"Asia/Kolkata\", NULL, NULL, NULL, NULL, 1, 1),(2, \"rhino\", \"rhino\", \"Asia/Kolkata\", NULL, NULL, NULL, NULL, 2, 2),(3, \"pluto\", \"pluto\", \"Asia/Kolkata\", NULL, NULL, NULL, NULL, 3, 3),(4, \"venus\", \"venus\", \"Asia/Kolkata\", NULL, NULL, NULL, NULL, 4, 4),(5, \"jupiter\", \"jupiter\", \"Asia/Kolkata\", NULL, NULL, NULL, NULL, 5, 5),(6, \"wakanda\", \"wakanda\", \"Asia/Kolkata\", NULL, NULL, NULL, NULL, 6, 6)";'
   ingress:
     enabled: true
     hostname: "fynams.sandbox.fynarfin.io"
@@ -82,9 +82,6 @@ selfservice:
     path: "/self"
     annotations: {}
 
-
-
-
 mysql:
   fullnameOverride: fineract-mysql
   enabled: false
@@ -99,11 +96,21 @@ mysql:
     setup.sql: |-
       # create databases
       CREATE DATABASE IF NOT EXISTS `fineract_tenants`;
-      CREATE DATABASE IF NOT EXISTS `fineract_default`;
+      CREATE DATABASE IF NOT EXISTS `gorilla`;
+      CREATE DATABASE IF NOT EXISTS `rhino`;
+      CREATE DATABASE IF NOT EXISTS `wakanda`;
+      CREATE DATABASE IF NOT EXISTS `pluto`;
+      CREATE DATABASE IF NOT EXISTS `venus`;
+      CREATE DATABASE IF NOT EXISTS `jupiter`;
       # create root user and grant rights
       GRANT ALL ON *.* TO 'root'@'%';
       GRANT ALL PRIVILEGES ON `fineract_tenants`.* TO 'mifos';
-      GRANT ALL PRIVILEGES ON `fineract_default`.* TO 'mifos';
+      GRANT ALL PRIVILEGES ON `gorilla`.* TO 'mifos';
+      GRANT ALL PRIVILEGES ON `rhino`.* TO 'mifos';
+      GRANT ALL PRIVILEGES ON `wakanda`.* TO 'mifos';
+      GRANT ALL PRIVILEGES ON `pluto`.* TO 'mifos';
+      GRANT ALL PRIVILEGES ON `venus`.* TO 'mifos';
+      GRANT ALL PRIVILEGES ON `jupiter`.* TO 'mifos';
   primary:
     resources:
       requests:
